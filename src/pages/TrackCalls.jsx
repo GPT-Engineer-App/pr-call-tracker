@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -18,6 +18,13 @@ const TrackCalls = () => {
   const [callDateTime, setCallDateTime] = useState("");
   const [callOutcome, setCallOutcome] = useState("");
 
+  useEffect(() => {
+    // Set the default date and time to now when the component mounts
+    const now = new Date();
+    const formattedDateTime = format(now, "yyyy-MM-dd'T'HH:mm");
+    setCallDateTime(formattedDateTime);
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const newCall = {
@@ -27,8 +34,11 @@ const TrackCalls = () => {
     };
     setCalls([...calls, newCall]);
     setClientName("");
-    setCallDateTime("");
     setCallOutcome("");
+    // Reset the date and time to now after submitting
+    const now = new Date();
+    const formattedDateTime = format(now, "yyyy-MM-dd'T'HH:mm");
+    setCallDateTime(formattedDateTime);
   };
 
   return (
